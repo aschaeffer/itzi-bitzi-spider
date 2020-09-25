@@ -5,8 +5,6 @@
 # Author	  : William
 # Date		: 2020/03/17
 
-import time
-import threading
 import move
 import os
 import info
