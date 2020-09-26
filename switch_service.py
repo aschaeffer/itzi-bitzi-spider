@@ -69,8 +69,8 @@ class SwitchService:
         while self.running:
             for gpio_pin in self.gpio_pins:
                 output_device = self.output_devices[gpio_pin]
-                print('[switch_service] %d %d %d' %(self.get_switch_id(gpio_pin), gpio_pin, output_device.value))
-            time.sleep(60)
+                # print('[switch_service] %d %d %d' %(self.get_switch_id(gpio_pin), gpio_pin, output_device.value))
+            time.sleep(1)
         print('[switch_service] stopped')
 
     def exit(self, args=None):
