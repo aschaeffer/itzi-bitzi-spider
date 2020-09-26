@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import pinject
 import time
 from blinker import signal
