@@ -48,6 +48,8 @@ class CommandController():
         return self.parser.parse_args(user_input)
 
     def execute_user_input(self, user_input):
+        if user_input == '':
+            return
         try:
             print(user_input)
             print(user_input.split())
