@@ -12,7 +12,7 @@ class SwitchService:
         if 1 <= switch_id <= len(self.gpio_pins):
             return self.gpio_pins[switch_id]
         else:
-            raise ValueError("Illegal switch id: " + switch_id)
+            raise ValueError("Illegal switch id: %d" % switch_id)
 
     def get_switch_id(self, gpio_pin):
         return self.gpio_pins.index(gpio_pin) + 1
