@@ -1,5 +1,7 @@
 import argparse
+import sys
 import threading
+import traceback
 from blinker import signal
 from prompt_toolkit import prompt
 from prompt_toolkit.history import FileHistory
