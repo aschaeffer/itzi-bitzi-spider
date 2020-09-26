@@ -93,7 +93,7 @@ class SwitchService:
             self.output_devices[gpio_pin].off()
 
     def get_switch_state(self, gpio_pin):
-        return self.output_devices[gpio_pin].state
+        return self.output_devices[gpio_pin].value
 
     def set_switch(self, switch_id, state):
         self.set_switch_state(self.get_gpio_pin(switch_id), state)
