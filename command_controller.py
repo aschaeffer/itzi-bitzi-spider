@@ -51,14 +51,11 @@ class CommandController():
         if user_input == '':
             return
         try:
-            print(user_input)
-            print(user_input.split())
             args = None
             try:
                 args = self.parse_user_input(user_input.split())
             except SystemExit:
                 pass
-            print(args)
             if args is not None and args.command in self.commands:
                 try:
                     self.commands[args.command](args)
