@@ -35,7 +35,6 @@ class SwitchService:
         self.set_switch_state(self.get_gpio_pin(switch_id), state)
 
     def set_all_switches(self, state):
-        self.set_switch_state()
         for switch_id in range(len(self.gpio_pins)):
             self.set_switch(switch_id, state)
 
