@@ -87,7 +87,8 @@ class LedService:
         print('[led_service] started')
         while self.running:
             changed = False
-            for led in self.leds:
+            for id in range(self.LED_COUNT):
+                led = self.leds[id]
                 if led['changed']:
                     if self.strip is not None:
                         self.strip.setPixelColor(
