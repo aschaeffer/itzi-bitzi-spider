@@ -44,7 +44,7 @@ class SwitchService:
         )
         parser.add_argument('--switch-id', type=int, help='The switch ID (numbering starts with 1)')
         parser.add_argument('--gpio', type=int, help='The GPIO port number (BCM)')
-        parser.add_argument('--state', type=self.str_to_bool, default=False, help='The state')
+        parser.add_argument('--state', type=self.str_to_bool, default=None, help='The state')
 
     def str_to_bool(self, value):
         if isinstance(value, bool):
@@ -70,7 +70,7 @@ class SwitchService:
             for gpio_pin in self.gpio_pins:
                 output_device = self.output_devices[gpio_pin]
                 print('[switch_service] %d %d %d' %(self.get_switch_id(gpio_pin), gpio_pin, output_device.value))
-            time.sleep(2)
+            time.sleep(60)
         print('[switch_service] stopped')
 
     def exit(self, args=None):
@@ -98,12 +98,21 @@ class SwitchService:
     def set_switch(self, switch_id, state):
         self.set_switch_state(self.get_gpio_pin(switch_id), state)
 
+    def get_switch(self, switch_id):
+        self.get_switch_state(self.get_gpio_pin(switch_id))
+
     def set_switch_parse(self, args=None):
         print(args)
         if args.switch_id is not None:
-            self.set_switch(args.switch_id, args.state)
+            if args.state is not None:
+                self.set_switch(args.switch_id, args.state)
+            else:
+                print(self.get_switch(args.switch_id))
         elif args.gpio is not None:
-            self.set_switch_state(args.switch_id, args.state)
+            if args.state is not None:
+                self.set_switch_state(args.gpio, args.state)
+            else:
+                print(self.get_switch_state(args.gpio))
 
     def set_all_switches(self, state):
         for switch_id in range(1, len(self.gpio_pins)):
