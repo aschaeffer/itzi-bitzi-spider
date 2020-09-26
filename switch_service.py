@@ -1,5 +1,6 @@
 import RPi.GPIO as GPIO
 
+
 class SwitchService:
 
     switch_ids = [ 1, 2, 3 ]
@@ -44,5 +45,7 @@ class SwitchService:
     def set_all_switches_on(self):
         self.set_all_switches(1)
 
+
 if __name__ == '__main__':
     switch_service = SwitchService()
+    switch_service.set_all_switches_off()
