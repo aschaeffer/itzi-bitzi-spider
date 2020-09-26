@@ -56,7 +56,10 @@ class CommandController():
                 pass
             print(args)
             if args is not None and args.command in self.commands:
-                self.commands[args.command](args)
+                try:
+                    self.commands[args.command](args)
+                except Exception as e:
+                    traceback.print_exc(file=sys.stdout)
             else:
                 print("[command_controller] command not found")
         except argparse.ArgumentError as e:
