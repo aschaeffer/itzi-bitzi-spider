@@ -159,10 +159,8 @@ class ServoService:
                     self.sc_angles[id] = args.angle
                     self.sc_time[id] = args.time
         if args.forward is not None:
-            self.sc_angles = self.forward[args.forward]['angles']
-            self.sc_time = self.forward[args.forward]['time']
-
-
+            self.sc_angles = self.forward[args.forward]['angles'].copy()
+            self.sc_time = self.forward[args.forward]['time'].copy()
 
 
 if __name__ == '__main__':
