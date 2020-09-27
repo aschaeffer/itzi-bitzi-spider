@@ -65,7 +65,7 @@ class ServoService:
     def run(self):
         signal('diag').send(self, name='servo_service', state='started')
         while self.running:
-            print("[servo_service] run")
+            # print("[servo_service] run")
             # self.sc_gear.moveAngle(0, random.random() * 40 - 20)
             time.sleep(5)
         print('[servo_service] stopping')
