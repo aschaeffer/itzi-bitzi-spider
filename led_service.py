@@ -37,7 +37,7 @@ class LedService:
     update_frequency = 50
 
     is_breathing = False
-    breath_time_factor = 5
+    breath_time_factor = 8
 
     thread = None
     running = True
