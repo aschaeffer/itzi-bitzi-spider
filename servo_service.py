@@ -100,7 +100,7 @@ class ServoService:
                         self.sc_current[id] + delta_step, self.sc_angles[id] - delta_step, self.sc_time[id] - time_delta
                     ))
                     self.sc_current[id] += delta_step
-                    self.sc_angles[id] -= delta_step
+                    # self.sc_angles[id] -= delta_step
                     self.sc_time[id] -= time_delta
                     if -45 <= delta_step <= 45:
                         # self.sc_gear.moveAngle(id, delta_step)
