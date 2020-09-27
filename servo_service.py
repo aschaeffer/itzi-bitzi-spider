@@ -8,7 +8,7 @@ MOVEMENT_TIME_X = 0.1
 MOVEMENT_TIME_Y = 0.2
 
 MOVEMENT_ANGLE_X = 5.0
-MOVEMENT_ANGLE_Y = 20.0
+MOVEMENT_ANGLE_Y = 10.0
 
 class ServoService:
 
@@ -40,9 +40,12 @@ class ServoService:
     forward = [
         {
             'angles': [
-                0.0,MOVEMENT_ANGLE_Y,0.0,-MOVEMENT_ANGLE_Y,
-                0.0,MOVEMENT_ANGLE_Y,0.0,-MOVEMENT_ANGLE_Y,
-                0.0,MOVEMENT_ANGLE_Y,0.0,-MOVEMENT_ANGLE_Y,
+                0.0,+MOVEMENT_ANGLE_Y,
+                0.0,-MOVEMENT_ANGLE_Y,
+                0.0,+MOVEMENT_ANGLE_Y,
+                0.0,+MOVEMENT_ANGLE_Y,
+                0.0,-MOVEMENT_ANGLE_Y,
+                0.0,+MOVEMENT_ANGLE_Y,
                 0.0,0.0,0.0,0.0
             ],
             'time': [
@@ -53,9 +56,12 @@ class ServoService:
             ]
         }, {
             'angles': [
-                -MOVEMENT_ANGLE_X,0.0,MOVEMENT_ANGLE_X,0.0,
-                -MOVEMENT_ANGLE_X,0.0,MOVEMENT_ANGLE_X,0.0,
-                -MOVEMENT_ANGLE_X,0.0,MOVEMENT_ANGLE_X,0.0,
+                -MOVEMENT_ANGLE_X,0.0,
+                +MOVEMENT_ANGLE_X,0.0,
+                -MOVEMENT_ANGLE_X,0.0,
+                +MOVEMENT_ANGLE_X,0.0,
+                -MOVEMENT_ANGLE_X,0.0,
+                +MOVEMENT_ANGLE_X,0.0,
                 0.0,0.0,0.0,0.0
             ],
             'time': [
@@ -66,9 +72,12 @@ class ServoService:
             ]
         }, {
             'angles': [
-                0.0,-MOVEMENT_ANGLE_Y,0.0,+MOVEMENT_ANGLE_Y,
-                0.0,-MOVEMENT_ANGLE_Y,0.0,+MOVEMENT_ANGLE_Y,
-                0.0,-MOVEMENT_ANGLE_Y,0.0,+MOVEMENT_ANGLE_Y,
+                0.0,-MOVEMENT_ANGLE_Y,
+                0.0,+MOVEMENT_ANGLE_Y,
+                0.0,-MOVEMENT_ANGLE_Y,
+                0.0,-MOVEMENT_ANGLE_Y,
+                0.0,+MOVEMENT_ANGLE_Y,
+                0.0,-MOVEMENT_ANGLE_Y,
                 0.0,0.0,0.0,0.0
             ],
             'time': [
@@ -79,9 +88,12 @@ class ServoService:
             ]
         }, {
             'angles': [
-                MOVEMENT_ANGLE_X,0.0,-MOVEMENT_ANGLE_X,0.0,
-                MOVEMENT_ANGLE_X,0.0,-MOVEMENT_ANGLE_X,0.0,
-                MOVEMENT_ANGLE_X,0.0,-MOVEMENT_ANGLE_X,0.0,
+                +MOVEMENT_ANGLE_X,0.0,
+                -MOVEMENT_ANGLE_X,0.0,
+                +MOVEMENT_ANGLE_X,0.0,
+                -MOVEMENT_ANGLE_X,0.0,
+                +MOVEMENT_ANGLE_X,0.0,
+                -MOVEMENT_ANGLE_X,0.0,
                 0.0,0.0,0.0,0.0
             ],
             'time': [
