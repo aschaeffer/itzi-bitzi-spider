@@ -62,7 +62,7 @@ class ServoService:
         }
     ]
 
-    update_frequency = 2.0
+    update_frequency = 30.0
 
     sc_gear = None
     p_sc = None
