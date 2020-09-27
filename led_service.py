@@ -49,7 +49,7 @@ class LedService:
             self.init_strip()
         self.init_led_states()
         signal('exit').connect(self.exit)
-        signal('diag').send(self, 'led_service', 'starting')
+        signal('diag').send(self, name='led_service', state='starting')
 
     def create_commands(self):
         parser = self.command_controller.create_command(
@@ -126,12 +126,12 @@ class LedService:
 
     def run(self):
         print('[led_service] started')
-        signal('diag').send(self, 'led_service', 'started')
+        signal('diag').send(self, name='led_service', state='started')
         while self.running:
             self.step()
             time.sleep(1 / self.update_frequency)
         print('[led_service] stopped')
-        signal('diag').send(self, 'led_service', 'stopping')
+        signal('diag').send(self, name='led_service', state='stopping')
 
     def exit(self, args=None):
         print('[led_service] exiting...')

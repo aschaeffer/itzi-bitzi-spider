@@ -23,10 +23,12 @@ class DiagService:
         self.led_service = led_service
         signal('diag').connect(self.diag)
 
-    def diag(self, sender, name, state):
+    def diag(self, sender, **data):
         print(sender)
-        print(name)
-        print(state)
+        print(data['name'])
+        print(data['state'])
+        name = data['name']
+        state = data['state']
         state = self.states[name][state]
         self.led_service.set_led_color(state['id'], state['b'], state['g'], state['b'])
         self.led_service.step()
