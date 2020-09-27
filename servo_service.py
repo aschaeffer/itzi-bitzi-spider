@@ -31,6 +31,22 @@ class ServoService:
         0.0,0.0,0.0,0.0,
         0.0,0.0,0.0,0.0
     ]
+    forward = [
+        {
+            'angles': [
+                -20.0,0.0,+20.0,0.0,
+                -20.0,0.0,+20.0,0.0,
+                -20.0,0.0,+20.0,0.0,
+                0.0,0.0,0.0,0.0
+            ],
+            'time': [
+                0.2,0.0,0.2,0.0,
+                0.2,0.0,0.2,0.0,
+                0.2,0.0,0.2,0.0,
+                0.0,0.0,0.0,0.0
+            ]
+        }
+    ]
 
     update_frequency = 2.0
 
@@ -74,6 +90,7 @@ class ServoService:
         parser.add_argument('--angle', type=int, help='The angle')
         parser.add_argument('--time', type=float, default=1.0, help='The angle')
         parser.add_argument('--update-frequency', type=float, help='Sets the update frequency')
+        parser.add_argument('--forward', type=float, help='Moves forward')
 
     def create_thread(self):
         self.thread = threading.Thread(target=self.run)
@@ -127,6 +144,9 @@ class ServoService:
                 for id in range(len(self.sc_angles)):
                     self.sc_angles[id] = args.angle
                     self.sc_time[id] = args.time
+        if args.forward is not None:
+            self.sc_angles = self.forward[0]['angles']
+            self.sc_time = self.forward[0]['time']
 
 
 
