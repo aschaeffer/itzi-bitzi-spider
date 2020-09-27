@@ -25,6 +25,7 @@ class ServoService:
         self.create_servos()
         self.initialize_pwm()
         signal('exit').connect(self.exit)
+        signal('diag').send(self, name='servo_service', state='starting')
 
     def create_servos(self):
         self.sc_gear = ServoCtrl()
@@ -50,10 +51,12 @@ class ServoService:
         self.thread.join()
 
     def run(self):
+        signal('diag').send(self, name='servo_service', state='started')
         while self.running:
             print("[servo_service] run")
             time.sleep(1)
-        print('[servo_service] stopped')
+        print('[servo_service] stopping')
+        signal('diag').send(self, name='servo_service', state='stopping')
 
     def exit(self, args=None):
         print('[servo_service] exiting...')

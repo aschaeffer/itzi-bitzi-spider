@@ -130,8 +130,8 @@ class LedService:
         while self.running:
             self.step()
             time.sleep(1 / self.update_frequency)
-        print('[led_service] stopped')
         signal('diag').send(self, name='led_service', state='stopping')
+        print('[led_service] stopping')
 
     def exit(self, args=None):
         print('[led_service] exiting...')
