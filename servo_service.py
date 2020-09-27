@@ -32,8 +32,9 @@ class ServoService:
         0.0,0.0,0.0,0.0
     ]
 
+    update_frequency = 2.0
+
     sc_gear = None
-    sc_frequency = 2
     p_sc = None
     t_sc = None
     init_pwm = []
@@ -72,6 +73,7 @@ class ServoService:
         parser.add_argument('--id', type=int, default=-1, help='The change affects to the given servo')
         parser.add_argument('--angle', type=int, help='The angle')
         parser.add_argument('--time', type=float, default=1.0, help='The angle')
+        parser.add_argument('--update-frequency', type=float, help='Sets the update frequency')
 
     def create_thread(self):
         self.thread = threading.Thread(target=self.run)
@@ -87,7 +89,7 @@ class ServoService:
         while self.running:
             # print("[servo_service] run")
             # self.sc_gear.moveAngle(0, random.random() * 40 - 20)
-            time_delta = 1.0 / self.sc_frequency
+            time_delta = 1.0 / self.update_frequency
             for id in range(len(self.sc_angles)):
                 if self.sc_time[id] + 0.01 >= time_delta:
                     total_delta = self.sc_angles[id] - self.sc_current[id]
@@ -102,9 +104,8 @@ class ServoService:
                     self.sc_current[id] += delta_step
                     # self.sc_angles[id] -= delta_step
                     self.sc_time[id] -= time_delta
-                    if -45 <= delta_step <= 45:
-                        # self.sc_gear.moveAngle(id, delta_step)
-                        pass
+                    if -45 <= self.sc_current[id] <= 45:
+                        self.sc_gear.moveAngle(id, self.sc_current[id])
             time.sleep(time_delta)
         print('[servo_service] stopping')
         signal('diag').send(self, name='servo_service', state='stopping')
@@ -116,6 +117,8 @@ class ServoService:
 
     def handle_servo_command(self, args=None):
         print(args)
+        if args.update_frequency is not None:
+            self.update_frequency = args.update_frequency
         if args.angle is not None:
             if args.id >= 0:
                 self.sc_angles[args.id] = args.angle
