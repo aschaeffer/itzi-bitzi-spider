@@ -4,11 +4,11 @@ import time
 from blinker import signal
 from server.RPIservo import ServoCtrl
 
-MOVEMENT_TIME_X = 0.2
-MOVEMENT_TIME_Y = 0.3
+MOVEMENT_TIME_X = 0.1
+MOVEMENT_TIME_Y = 0.2
 
-MOVEMENT_ANGLE_X = 15.0
-MOVEMENT_ANGLE_Y = 30.0
+MOVEMENT_ANGLE_X = 5.0
+MOVEMENT_ANGLE_Y = 20.0
 
 class ServoService:
 
