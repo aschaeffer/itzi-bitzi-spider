@@ -89,7 +89,7 @@ class ServoService:
             # self.sc_gear.moveAngle(0, random.random() * 40 - 20)
             time_delta = 1.0 / self.sc_frequency
             for id in range(len(self.sc_angles)):
-                if self.sc_time[id] > time_delta:
+                if self.sc_time[id] + 0.01 >= time_delta:
                     total_delta = self.sc_angles[id] - self.sc_current[id]
                     time_steps = self.sc_time[id] / time_delta
                     delta_step = total_delta / time_steps
