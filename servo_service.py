@@ -26,14 +26,14 @@ class ServoService:
         0,0,0,0
     ]
     sc_time = [
-        1.0,1.0,1.0,1.0,
-        1.0,1.0,1.0,1.0,
-        1.0,1.0,1.0,1.0,
-        1.0,1.0,1.0,1.0
+        0.0,0.0,0.0,0.0,
+        0.0,0.0,0.0,0.0,
+        0.0,0.0,0.0,0.0,
+        0.0,0.0,0.0,0.0
     ]
 
     sc_gear = None
-    sc_frequency = 10
+    sc_frequency = 2
     p_sc = None
     t_sc = None
     init_pwm = []
@@ -89,17 +89,17 @@ class ServoService:
             # self.sc_gear.moveAngle(0, random.random() * 40 - 20)
             time_delta = 1.0 / self.sc_frequency
             for id in range(len(self.sc_angles)):
-                total_delta = self.sc_angles[id] - self.sc_current[id]
-                time_steps = self.sc_time[id] / time_delta
-                delta_step = total_delta / time_steps
-                print('%f %f %f' %(total_delta, time_steps, delta_step))
-                self.sc_current[id] += delta_step
-                self.sc_angles[id] -= delta_step
-                self.sc_time[id] -= time_delta
-                print('%f %f %f' %(self.sc_current[id], self.sc_angles[id], self.sc_time[id]))
-                if -45 <= delta_step <= 45:
-                    # self.sc_gear.moveAngle(id, delta_step)
-                    pass
+                if self.sc_time[id] > time_delta:
+                    total_delta = self.sc_angles[id] - self.sc_current[id]
+                    time_steps = self.sc_time[id] / time_delta
+                    delta_step = total_delta / time_steps
+                    self.sc_current[id] += delta_step
+                    self.sc_angles[id] -= delta_step
+                    self.sc_time[id] -= time_delta
+                    print('%f %f %f --- %f %f %f' %(total_delta, time_steps, delta_step, self.sc_current[id], self.sc_angles[id], self.sc_time[id]))
+                    if -45 <= delta_step <= 45:
+                        # self.sc_gear.moveAngle(id, delta_step)
+                        pass
             time.sleep(time_delta)
         print('[servo_service] stopping')
         signal('diag').send(self, name='servo_service', state='stopping')
