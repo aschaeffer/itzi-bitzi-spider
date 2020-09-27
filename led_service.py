@@ -49,6 +49,7 @@ class LedService:
             self.init_strip()
         self.init_led_states()
         signal('exit').connect(self.exit)
+        signal('diag').send(self, 'led_service', 'starting')
 
     def create_commands(self):
         parser = self.command_controller.create_command(
@@ -103,30 +104,34 @@ class LedService:
     def join(self):
         self.thread.join()
 
+    def step(self):
+        changed = False
+        if self.is_breathing:
+            self.calc_breath()
+        for id in range(self.LED_COUNT):
+            led = self.leds[id]
+            if led['changed']:
+                if self.strip is not None:
+                    self.strip.setPixelColor(
+                        id,
+                        Color(led['r'], led['g'], led['b'])
+                    )
+                changed = True
+                led['changed'] = False
+        if changed:
+            if self.strip is not None:
+                self.strip.show()
+            else:
+                print('[led_service] updated')
+
     def run(self):
         print('[led_service] started')
+        signal('diag').send(self, 'led_service', 'started')
         while self.running:
-            changed = False
-            if self.is_breathing:
-                self.calc_breath()
-            for id in range(self.LED_COUNT):
-                led = self.leds[id]
-                if led['changed']:
-                    if self.strip is not None:
-                        self.strip.setPixelColor(
-                            id,
-                            Color(led['r'], led['g'], led['b'])
-                        )
-                    changed = True
-                    led['changed'] = False
-            if changed:
-                if self.strip is not None:
-                    self.strip.show()
-                else:
-                    print('[led_service] updated')
-
+            self.step()
             time.sleep(1 / self.update_frequency)
         print('[led_service] stopped')
+        signal('diag').send(self, 'led_service', 'stopping')
 
     def exit(self, args=None):
         print('[led_service] exiting...')

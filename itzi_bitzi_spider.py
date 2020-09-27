@@ -4,6 +4,7 @@ import pinject
 import time
 from blinker import signal
 
+import diag_service
 import command_controller
 import switch_service
 import led_service
@@ -18,6 +19,7 @@ class ItziBitziSpider:
 
     def __init__(
         self,
+        diag_service,
         command_controller,
         switch_service,
         led_service,
@@ -25,6 +27,7 @@ class ItziBitziSpider:
         exit_command,
         help_command
     ):
+        self.diag_service = diag_service
         self.command_controller = command_controller
         self.switch_service = switch_service
         self.led_service = led_service
