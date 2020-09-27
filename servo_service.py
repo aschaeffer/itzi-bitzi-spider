@@ -32,11 +32,11 @@ class ServoService:
         self.sc_gear = ServoCtrl()
         self.sc_gear.moveInit()
 
-        self.p_sc = ServoCtrl()
-        self.p_sc.start()
-
-        self.t_sc = ServoCtrl()
-        self.t_sc.start()
+        # self.p_sc = ServoCtrl()
+        # self.p_sc.start()
+        #
+        # self.t_sc = ServoCtrl()
+        # self.t_sc.start()
 
     def initialize_pwm(self):
         for i in range(16):
@@ -55,7 +55,7 @@ class ServoService:
         signal('diag').send(self, name='servo_service', state='started')
         while self.running:
             print("[servo_service] run")
-            self.sc_gear.moveAngle(0, random.random() * 10 - 5)
+            self.sc_gear.moveAngle(0, random.random() * 40 - 20)
             time.sleep(5)
         print('[servo_service] stopping')
         signal('diag').send(self, name='servo_service', state='stopping')
