@@ -1,3 +1,4 @@
+import random
 import threading
 import time
 from blinker import signal
@@ -54,7 +55,8 @@ class ServoService:
         signal('diag').send(self, name='servo_service', state='started')
         while self.running:
             print("[servo_service] run")
-            time.sleep(1)
+            self.sc_gear.moveAngle(0, random.random() * 10 - 5)
+            time.sleep(5)
         print('[servo_service] stopping')
         signal('diag').send(self, name='servo_service', state='stopping')
 
