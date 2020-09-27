@@ -177,6 +177,7 @@ class ServoService:
             # print("[servo_service] run")
             # self.sc_gear.moveAngle(0, random.random() * 40 - 20)
             time_delta = 1.0 / self.update_frequency
+            moved = False
             for id in range(len(self.sc_angles)):
                 if self.sc_time[id] + 0.01 >= time_delta:
                     total_delta = self.sc_angles[id] - self.sc_current[id]
@@ -193,11 +194,11 @@ class ServoService:
                     self.sc_time[id] -= time_delta
                     if -45 <= self.sc_current[id] <= 45:
                         self.sc_gear.moveAngle(id, self.sc_current[id])
-                else:
-                    if self.move:
-                        self.move_step = (self.move_step + 1) % 4
-                        self.sc_angles = self.forward[self.move_step]['angles'].copy()
-                        self.sc_time = self.forward[self.move_step]['time'].copy()
+                        moved = True
+            if self.move and not moved:
+                self.move_step = (self.move_step + 1) % 4
+                self.sc_angles = self.forward[self.move_step]['angles'].copy()
+                self.sc_time = self.forward[self.move_step]['time'].copy()
             time.sleep(time_delta)
         print('[servo_service] stopping')
         signal('diag').send(self, name='servo_service', state='stopping')
@@ -223,8 +224,8 @@ class ServoService:
             self.sc_angles = self.forward[args.forward]['angles'].copy()
             self.sc_time = self.forward[args.forward]['time'].copy()
         if args.move is not None:
-            self.move_step = 0
             self.move = args.move
+            self.move_step = 0
             self.sc_angles = self.forward[self.move_step]['angles'].copy()
             self.sc_time = self.forward[self.move_step]['time'].copy()
 
