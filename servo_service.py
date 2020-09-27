@@ -4,6 +4,11 @@ import time
 from blinker import signal
 from server.RPIservo import ServoCtrl
 
+MOVEMENT_TIME_X = 0.2
+MOVEMENT_TIME_Y = 0.3
+
+MOVEMENT_ANGLE_X = 15.0
+MOVEMENT_ANGLE_Y = 30.0
 
 class ServoService:
 
@@ -35,31 +40,57 @@ class ServoService:
     forward = [
         {
             'angles': [
-                -15.0,0.0,+15.0,0.0,
-                -15.0,0.0,+15.0,0.0,
-                -15.0,0.0,+15.0,0.0,
+                0.0,MOVEMENT_ANGLE_Y,0.0,-MOVEMENT_ANGLE_Y,
+                0.0,MOVEMENT_ANGLE_Y,0.0,-MOVEMENT_ANGLE_Y,
+                0.0,MOVEMENT_ANGLE_Y,0.0,-MOVEMENT_ANGLE_Y,
                 0.0,0.0,0.0,0.0
             ],
             'time': [
-                0.3,0.0,0.3,0.0,
-                0.3,0.0,0.3,0.0,
-                0.3,0.0,0.3,0.0,
+                0.0,MOVEMENT_TIME_Y,0.0,MOVEMENT_TIME_Y,
+                0.0,MOVEMENT_TIME_Y,0.0,MOVEMENT_TIME_Y,
+                0.0,MOVEMENT_TIME_Y,0.0,MOVEMENT_TIME_Y,
                 0.0,0.0,0.0,0.0
             ]
         }, {
             'angles': [
-                0.0,30.0,0.0,-30.0,
-                0.0,30.0,0.0,-30.0,
-                0.0,30.0,0.0,-30.0,
+                -MOVEMENT_ANGLE_X,0.0,MOVEMENT_ANGLE_X,0.0,
+                -MOVEMENT_ANGLE_X,0.0,MOVEMENT_ANGLE_X,0.0,
+                -MOVEMENT_ANGLE_X,0.0,MOVEMENT_ANGLE_X,0.0,
                 0.0,0.0,0.0,0.0
             ],
             'time': [
-                0.0,0.3,0.0,0.3,
-                0.0,0.3,0.0,0.3,
-                0.0,0.3,0.0,0.3,
+                MOVEMENT_TIME_X,0.0,MOVEMENT_TIME_X,0.0,
+                MOVEMENT_TIME_X,0.0,MOVEMENT_TIME_X,0.0,
+                MOVEMENT_TIME_X,0.0,MOVEMENT_TIME_X,0.0,
                 0.0,0.0,0.0,0.0
             ]
-        }
+        }, {
+            'angles': [
+                0.0,-MOVEMENT_ANGLE_Y,0.0,+MOVEMENT_ANGLE_Y,
+                0.0,-MOVEMENT_ANGLE_Y,0.0,+MOVEMENT_ANGLE_Y,
+                0.0,-MOVEMENT_ANGLE_Y,0.0,+MOVEMENT_ANGLE_Y,
+                0.0,0.0,0.0,0.0
+            ],
+            'time': [
+                0.0,MOVEMENT_TIME_Y,0.0,MOVEMENT_TIME_Y,
+                0.0,MOVEMENT_TIME_Y,0.0,MOVEMENT_TIME_Y,
+                0.0,MOVEMENT_TIME_Y,0.0,MOVEMENT_TIME_Y,
+                0.0,0.0,0.0,0.0
+            ]
+        }, {
+            'angles': [
+                MOVEMENT_ANGLE_X,0.0,-MOVEMENT_ANGLE_X,0.0,
+                MOVEMENT_ANGLE_X,0.0,-MOVEMENT_ANGLE_X,0.0,
+                MOVEMENT_ANGLE_X,0.0,-MOVEMENT_ANGLE_X,0.0,
+                0.0,0.0,0.0,0.0
+            ],
+            'time': [
+                MOVEMENT_TIME_X,0.0,MOVEMENT_TIME_X,0.0,
+                MOVEMENT_TIME_X,0.0,MOVEMENT_TIME_X,0.0,
+                MOVEMENT_TIME_X,0.0,MOVEMENT_TIME_X,0.0,
+                0.0,0.0,0.0,0.0
+            ]
+        },
     ]
 
     update_frequency = 30.0
