@@ -13,8 +13,27 @@ class ServoService:
         1,1,1,1,
         1,1,1,1
     ]
+    sc_angles = [
+        0,0,0,0,
+        0,0,0,0,
+        0,0,0,0,
+        0,0,0,0
+    ]
+    sc_current = [
+        0,0,0,0,
+        0,0,0,0,
+        0,0,0,0,
+        0,0,0,0
+    ]
+    sc_time = [
+        1.0,1.0,1.0,1.0,
+        1.0,1.0,1.0,1.0,
+        1.0,1.0,1.0,1.0,
+        1.0,1.0,1.0,1.0
+    ]
 
     sc_gear = None
+    sc_frequency = 10
     p_sc = None
     t_sc = None
     init_pwm = []
@@ -52,6 +71,7 @@ class ServoService:
         )
         parser.add_argument('--id', type=int, default=-1, help='The change affects to the given servo')
         parser.add_argument('--angle', type=int, help='The angle')
+        parser.add_argument('--time', type=float, default=1.0, help='The angle')
 
     def create_thread(self):
         self.thread = threading.Thread(target=self.run)
@@ -67,7 +87,20 @@ class ServoService:
         while self.running:
             # print("[servo_service] run")
             # self.sc_gear.moveAngle(0, random.random() * 40 - 20)
-            time.sleep(5)
+            time_delta = 1.0 / self.sc_frequency
+            for id in range(len(self.sc_angles)):
+                total_delta = self.sc_angles[id] - self.sc_current[id]
+                time_steps = self.sc_time[id] / time_delta
+                delta_step = total_delta / time_steps
+                print('%f %f %f' %(total_delta, time_steps, delta_step))
+                self.sc_current[id] += delta_step
+                self.sc_angles[id] -= delta_step
+                self.sc_time[id] -= time_delta
+                print('%f %f %f' %(self.sc_current[id], self.sc_angles[id], self.sc_time[id]))
+                if -45 <= delta_step <= 45:
+                    # self.sc_gear.moveAngle(id, delta_step)
+                    pass
+            time.sleep(time_delta)
         print('[servo_service] stopping')
         signal('diag').send(self, name='servo_service', state='stopping')
 
@@ -75,10 +108,19 @@ class ServoService:
         print('[servo_service] exiting...')
         self.running = False
 
+
     def handle_servo_command(self, args=None):
         print(args)
         if args.angle is not None:
-            self.sc_gear.moveAngle(args.id, args.angle)
+            if args.id >= 0:
+                self.sc_angles[args.id] = args.angle
+                self.sc_time[args.id] = args.time
+            else:
+                for id in range(len(self.sc_angles)):
+                    self.sc_angles[id] = args.angle
+                    self.sc_time[id] = args.time
+
+
 
 
 if __name__ == '__main__':
