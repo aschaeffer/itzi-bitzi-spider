@@ -7,7 +7,7 @@ from blinker import signal
 import command_controller
 import switch_service
 import led_service
-# import servo_service
+import servo_service
 import exit_command
 import help_command
 
@@ -21,14 +21,14 @@ class ItziBitziSpider:
         command_controller,
         switch_service,
         led_service,
-        # servo_service,
+        servo_service,
         exit_command,
         help_command
     ):
         self.command_controller = command_controller
         self.switch_service = switch_service
         self.led_service = led_service
-        # self.servo_service = servo_service
+        self.servo_service = servo_service
         self.exit_command = exit_command
         self.help_command = help_command
         signal('exit').connect(self.exit)
@@ -46,15 +46,18 @@ class ItziBitziSpider:
         self.command_controller.create_thread()
         self.switch_service.create_thread()
         self.led_service.create_thread()
+        self.servo_service.create_thread()
 
     def start_threads(self):
         print('[main] starting threads...')
         self.command_controller.start()
         self.switch_service.start()
         self.led_service.start()
+        self.servo_service.start()
 
     def join_threads(self):
         print('[main] waiting for remaining threads...')
+        self.servo_service.join()
         self.led_service.join()
         self.switch_service.join()
         self.command_controller.join()
