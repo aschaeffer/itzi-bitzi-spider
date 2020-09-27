@@ -107,6 +107,9 @@ class ServoService:
 
     update_frequency = 30.0
 
+    move = False
+    move_step = 0
+
     sc_gear = None
     p_sc = None
     t_sc = None
@@ -148,6 +151,16 @@ class ServoService:
         parser.add_argument('--time', type=float, default=1.0, help='The angle')
         parser.add_argument('--update-frequency', type=float, help='Sets the update frequency')
         parser.add_argument('--forward', type=int, help='Moves forward')
+        parser.add_argument('--move', type=self.str_to_bool, help='Move automatically')
+
+    def str_to_bool(self, value):
+        if isinstance(value, bool):
+            return value
+        if value.lower() in {'false', 'f', '0', 'no', 'n', 'off'}:
+            return False
+        elif value.lower() in {'true', 't', '1', 'yes', 'y', 'on'}:
+            return True
+        raise ValueError(f'{value} is not a valid boolean value')
 
     def create_thread(self):
         self.thread = threading.Thread(target=self.run)
@@ -180,6 +193,10 @@ class ServoService:
                     self.sc_time[id] -= time_delta
                     if -45 <= self.sc_current[id] <= 45:
                         self.sc_gear.moveAngle(id, self.sc_current[id])
+                else:
+                    self.move_step = (self.move_step + 1) % 4
+                    self.sc_angles = self.forward[self.move_step]['angles'].copy()
+                    self.sc_time = self.forward[self.move_step]['time'].copy()
             time.sleep(time_delta)
         print('[servo_service] stopping')
         signal('diag').send(self, name='servo_service', state='stopping')
@@ -204,6 +221,8 @@ class ServoService:
         if args.forward is not None:
             self.sc_angles = self.forward[args.forward]['angles'].copy()
             self.sc_time = self.forward[args.forward]['time'].copy()
+        if args.move is not None:
+            self.move = args.move
 
 
 if __name__ == '__main__':
